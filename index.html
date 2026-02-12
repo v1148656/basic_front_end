@@ -2,11 +2,11 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend (2026)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Frontend (2026) — адаптивная версия</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,25 +15,60 @@
         }
 
         body {
-            background-color: #e8ecf2;
+            background: linear-gradient(145deg, #d9e0ec 0%, #eef2f7 100%);
             font-family: 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 48px 24px;
+            padding: 20px 12px;
             color: #1a1e2b;
+            min-height: 100vh;
         }
 
         .pdf-card {
             max-width: 1400px;
             width: 100%;
-            background: white;
-            border-radius: 40px 40px 32px 32px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 48px 48px 36px 36px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
             padding: 52px 48px;
             position: relative;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+        }
+
+        /* ============== ПОЛНАЯ АДАПТАЦИЯ ============== */
+        @media (max-width: 1100px) {
+            .pdf-card { padding: 40px 32px; }
+            h1 { font-size: 44px; }
+        }
+
+        @media (max-width: 800px) {
+            body { padding: 12px 8px; }
+            .pdf-card { 
+                padding: 32px 20px; 
+                border-radius: 32px;
+            }
+            h1 { font-size: 36px; letter-spacing: -1.2px; }
+            .subhead { font-size: 18px; padding: 14px 20px; }
+        }
+
+        @media (max-width: 600px) {
+            .pdf-card { padding: 24px 16px; }
+            h1 { font-size: 30px; max-width: 100%; }
+            .badge-tag { font-size: 12px; padding: 6px 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .pdf-card { padding: 20px 14px; border-radius: 28px; }
+            h1 { font-size: 26px; line-height: 1.2; }
+            .subhead { 
+                font-size: 16px; 
+                padding: 12px 16px; 
+                border-left-width: 4px;
+            }
         }
 
         .badge-tag {
@@ -48,6 +83,9 @@
             margin-bottom: 28px;
             border: 1px solid rgba(255,255,255,0.15);
             box-shadow: 0 8px 12px -8px rgba(0,0,0,0.3);
+        }
+        @media (max-width: 480px) {
+            .badge-tag { margin-bottom: 20px; }
         }
 
         h1 {
@@ -74,13 +112,22 @@
             padding: 16px 32px 16px 28px;
             width: fit-content;
         }
+        @media (max-width: 600px) {
+            .subhead { margin-bottom: 32px; width: 100%; }
+        }
 
-        /* Двойной прайс-блок */
+        /* Двойной прайс-блок — АДАПТИВ */
         .price-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
             margin-bottom: 56px;
+        }
+        @media (max-width: 800px) {
+            .price-grid { gap: 18px; }
+        }
+        @media (max-width: 700px) {
+            .price-grid { grid-template-columns: 1fr; gap: 20px; }
         }
 
         .price-card {
@@ -92,10 +139,17 @@
             position: relative;
             overflow: hidden;
         }
-
         .price-card.light {
             background: #f2f5fa;
             color: #0a0d16;
+        }
+        @media (max-width: 900px) {
+            .price-card { padding: 28px 24px; }
+        }
+        @media (max-width: 480px) {
+            .price-card { padding: 24px 18px; border-radius: 24px; }
+            .price-value { font-size: 36px; }
+            .price-value small { font-size: 20px; }
         }
 
         .price-label {
@@ -105,7 +159,6 @@
             letter-spacing: -0.02em;
             margin-bottom: 12px;
         }
-
         .price-value {
             font-size: 48px;
             font-weight: 700;
@@ -115,19 +168,10 @@
             align-items: baseline;
             gap: 8px;
             margin-bottom: 8px;
+            flex-wrap: wrap;
         }
-
-        .price-value small {
-            font-size: 24px;
-            font-weight: 500;
-            opacity: 0.7;
-        }
-
-        .price-meta {
-            font-size: 16px;
-            opacity: 0.8;
-        }
-
+        .price-value small { font-size: 24px; font-weight: 500; opacity: 0.7; }
+        .price-meta { font-size: 16px; opacity: 0.8; }
         .combo-badge {
             position: absolute;
             top: 20px;
@@ -140,11 +184,13 @@
             font-size: 16px;
             box-shadow: 0 8px 16px rgba(255,217,102,0.3);
         }
-
-        /* Таблицы курсов */
-        .course-section {
-            margin-top: 48px;
+        @media (max-width: 480px) {
+            .combo-badge { top: 12px; right: 12px; padding: 6px 16px; font-size: 14px; }
         }
+
+        /* ТАБЛИЦЫ — МОБИЛЬНОЕ ВЕЛИКОЛЕПИЕ */
+        .course-section { margin-top: 48px; }
+        @media (max-width: 600px) { .course-section { margin-top: 36px; } }
 
         .course-title {
             font-size: 28px;
@@ -154,6 +200,13 @@
             align-items: center;
             gap: 12px;
             font-family: 'Space Grotesk', sans-serif;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 600px) {
+            .course-title { font-size: 24px; gap: 8px; }
+        }
+        @media (max-width: 480px) {
+            .course-title { flex-direction: column; align-items: flex-start; }
         }
 
         .course-tag {
@@ -164,7 +217,9 @@
             font-size: 16px;
             font-weight: 600;
         }
+        @media (max-width: 480px) { .course-tag { font-size: 14px; } }
 
+        /* АДАПТИВНАЯ ТАБЛИЦА — ПЕРЕВОРОТ В КАРТОЧКИ НА ТЕЛЕФОНАХ */
         .program-table {
             width: 100%;
             border-collapse: collapse;
@@ -185,7 +240,6 @@
             text-align: left;
             border-bottom: 2px solid #d0d9e8;
         }
-
         .program-table td {
             padding: 18px 16px;
             background: white;
@@ -195,17 +249,70 @@
             color: #232836;
         }
 
-        .program-table tr:last-child td {
-            border-bottom: none;
+        /* МОБИЛЬНЫЙ ГЕРОЙ — превращаем таблицу в карточки */
+        @media (max-width: 700px) {
+            .program-table, .program-table thead, .program-table tbody, .program-table th, .program-table td, .program-table tr {
+                display: block;
+            }
+            .program-table thead {
+                display: none; /* скрываем заголовки */
+            }
+            .program-table tr {
+                margin-bottom: 16px;
+                background: white;
+                border-radius: 20px;
+                padding: 18px 16px;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.02);
+                border: 1px solid #f0f3f7;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: baseline;
+                position: relative;
+            }
+            .program-table td {
+                padding: 6px 0;
+                border-bottom: none;
+                background: transparent;
+                display: inline-block;
+                width: auto;
+                font-size: 16px;
+            }
+            .program-table td:first-child {
+                width: 100%;
+                font-weight: 700;
+                color: #2966ff;
+                padding-bottom: 4px;
+                font-size: 15px;
+            }
+            .program-table td:last-child {
+                margin-left: auto;
+                font-weight: 700;
+                color: #0a1c38;
+                background: #f2f5fa;
+                padding: 6px 16px;
+                border-radius: 40px;
+                font-size: 16px;
+                display: inline-block;
+            }
+            .program-table td:nth-child(2) {
+                width: calc(100% - 100px);
+                padding-right: 12px;
+                font-weight: 500;
+            }
+            .project-highlight {
+                margin-left: 0;
+                margin-top: 6px;
+                display: inline-block;
+            }
         }
 
-        .lesson-number {
-            font-weight: 600;
-            color: #2966ff;
-            width: 70px;
-            font-size: 16px;
+        @media (max-width: 480px) {
+            .program-table tr { padding: 16px 14px; }
+            .program-table td:nth-child(2) { width: 100%; margin-bottom: 8px; }
+            .program-table td:last-child { margin-left: 0; width: fit-content; }
         }
 
+        .lesson-number { font-weight: 600; color: #2966ff; width: 70px; font-size: 16px; }
         .project-highlight {
             background: #fcf1d6;
             padding: 4px 14px;
@@ -216,16 +323,13 @@
             display: inline-block;
             margin-left: 8px;
         }
-
-        .price-col {
-            font-weight: 700;
-            color: #0a1c38;
-            font-size: 18px;
-            font-family: 'Space Grotesk', monospace;
-            text-align: right;
+        @media (max-width: 700px) {
+            .project-highlight { margin-left: 0; margin-top: 6px; }
         }
 
-        /* Комбо-предложение */
+        .price-col { font-weight: 700; color: #0a1c38; font-size: 18px; font-family: 'Space Grotesk', monospace; text-align: right; }
+
+        /* КОМБО — адаптивный */
         .combo-offer {
             background: linear-gradient(145deg, #0e1322, #1a1f2e);
             border-radius: 32px;
@@ -239,7 +343,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .combo-offer::before {
             content: "⚡";
             position: absolute;
@@ -251,6 +354,17 @@
             transform: rotate(15deg);
         }
 
+        @media (max-width: 1000px) {
+            .combo-offer { grid-template-columns: 1fr; gap: 32px; padding: 40px 32px; }
+        }
+        @media (max-width: 600px) {
+            .combo-offer { padding: 32px 24px; margin: 36px 0; border-radius: 28px; }
+        }
+        @media (max-width: 480px) {
+            .combo-offer { padding: 28px 18px; }
+            .combo-offer::before { font-size: 100px; right: 10px; bottom: 10px; }
+        }
+
         .combo-title {
             font-size: 36px;
             font-weight: 700;
@@ -258,12 +372,10 @@
             margin-bottom: 20px;
             font-family: 'Space Grotesk', sans-serif;
         }
+        @media (max-width: 600px) { .combo-title { font-size: 30px; } }
+        @media (max-width: 480px) { .combo-title { font-size: 26px; } }
 
-        .combo-features {
-            list-style: none;
-            margin-top: 24px;
-        }
-
+        .combo-features { list-style: none; margin-top: 24px; }
         .combo-features li {
             margin-bottom: 16px;
             display: flex;
@@ -271,6 +383,7 @@
             gap: 12px;
             font-size: 18px;
         }
+        @media (max-width: 480px) { .combo-features li { font-size: 16px; gap: 8px; } }
 
         .combo-price-block {
             background: rgba(255,255,255,0.08);
@@ -279,14 +392,9 @@
             border: 1px solid rgba(255,255,255,0.1);
             backdrop-filter: blur(8px);
         }
+        @media (max-width: 480px) { .combo-price-block { padding: 24px; } }
 
-        .old-price {
-            font-size: 24px;
-            text-decoration: line-through;
-            opacity: 0.6;
-            margin-bottom: 8px;
-        }
-
+        .old-price { font-size: 24px; text-decoration: line-through; opacity: 0.6; margin-bottom: 8px; }
         .new-price {
             font-size: 64px;
             font-weight: 700;
@@ -295,11 +403,14 @@
             line-height: 1;
             margin-bottom: 16px;
         }
+        .new-price small { font-size: 28px; font-weight: 500; opacity: 0.8; }
 
-        .new-price small {
-            font-size: 28px;
-            font-weight: 500;
-            opacity: 0.8;
+        @media (max-width: 600px) {
+            .new-price { font-size: 56px; }
+            .new-price small { font-size: 24px; }
+        }
+        @media (max-width: 480px) {
+            .new-price { font-size: 48px; letter-spacing: -2px; }
         }
 
         .discount-badge {
@@ -331,11 +442,23 @@
             text-decoration: none;
             border: 1px solid rgba(255,255,255,0.2);
         }
+        @media (max-width: 480px) {
+            .combo-btn { padding: 16px 24px; font-size: 18px; }
+        }
+        .combo-btn:hover { background: #1a4fcc; transform: scale(1.02); box-shadow: 0 20px 28px -10px #2966ff70; }
 
-        .combo-btn:hover {
-            background: #1a4fcc;
-            transform: scale(1.02);
-            box-shadow: 0 20px 28px -10px #2966ff70;
+        /* ПРЕИМУЩЕСТВА СЕТКА — адаптив */
+        @media (max-width: 800px) {
+            div[style*="grid-template-columns: repeat(3, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 28px !important;
+            }
+        }
+        @media (max-width: 550px) {
+            div[style*="grid-template-columns: repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+                gap: 24px !important;
+            }
         }
 
         .guarantee {
@@ -346,6 +469,10 @@
             font-weight: 500;
             border-top: 2px solid #e8edf5;
             padding-top: 40px;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 600px) {
+            .guarantee { flex-direction: column; gap: 16px; }
         }
 
         .footer-note {
@@ -355,12 +482,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .contact-links {
             display: flex;
             gap: 16px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .contact-item {
@@ -377,6 +507,13 @@
             color: #1a1e2b;
             font-weight: 500;
         }
+        @media (max-width: 900px) {
+            .contact-item { padding: 8px 16px; }
+            .contact-item span:last-child { display: none; } /* скрываем текст метки, оставляем иконки */
+        }
+        @media (max-width: 480px) {
+            .contact-item { padding: 8px 14px; }
+        }
 
         .contact-item:hover {
             background: #f0f5ff;
@@ -387,11 +524,16 @@
         .whatsapp-bg { color: #25D366; }
         .telegram-bg { color: #0088cc; }
 
-        @media (max-width: 1000px) {
-            .price-grid { grid-template-columns: 1fr; }
-            .combo-offer { grid-template-columns: 1fr; }
-            .pdf-card { padding: 32px 20px; }
-            h1 { font-size: 38px; }
+        /* ДОП АДАПТАЦИЯ */
+        @media (max-width: 400px) {
+            h1 { font-size: 24px; }
+            .price-value { font-size: 32px; }
+            .combo-title { font-size: 24px; }
+        }
+
+        /* TOUCH-OPTIMIZED */
+        .combo-btn, .contact-item {
+            -webkit-tap-highlight-color: transparent;
         }
     </style>
 </head>
@@ -406,7 +548,7 @@
             ← Базовый курс + Продвинутый React-трек. 5 проектов в портфолио
         </div>
 
-        <!-- ДВА ТАРИФА -->
+        <!-- ДВА ТАРИФА (АДАПТИВ) -->
         <div class="price-grid">
             <div class="price-card">
                 <div class="price-label">🎯 Базовый курс</div>
@@ -423,7 +565,7 @@
             </div>
         </div>
 
-        <!-- БАЗОВЫЙ КУРС (HTML/CSS/JS) -->
+        <!-- БАЗОВЫЙ КУРС (АДАПТИВНАЯ ТАБЛИЦА) -->
         <div class="course-section">
             <div class="course-title">
                 <span>📘 Базовый курс — 20 уроков</span>
@@ -462,7 +604,7 @@
             </table>
         </div>
 
-        <!-- ПРОДВИНУТЫЙ КУРС (REACT + REDUX + TS) -->
+        <!-- ПРОДВИНУТЫЙ КУРС (АДАПТИВ) -->
         <div class="course-section">
             <div class="course-title">
                 <span>⚛️ Продвинутый React-курс — 20 уроков</span>
@@ -501,7 +643,7 @@
             </table>
         </div>
 
-        <!-- ⚡ КОМБО-ПРЕДЛОЖЕНИЕ: ВСЁ СРАЗУ ⚡ -->
+        <!-- ⚡ КОМБО-ПРЕДЛОЖЕНИЕ: ПОЛНОСТЬЮ АДАПТИВНО ⚡ -->
         <div class="combo-offer">
             <div>
                 <div class="discount-badge">🔥 -25% при покупке всего сразу</div>
@@ -530,7 +672,7 @@
             </div>
         </div>
 
-        <!-- ПРЕИМУЩЕСТВА -->
+        <!-- ПРЕИМУЩЕСТВА - АДАПТИВНАЯ СЕТКА -->
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin: 48px 0;">
             <div style="text-align: center;">
                 <div style="font-size: 42px; margin-bottom: 16px;">🎓</div>
@@ -560,26 +702,26 @@
             </div>
         </div>
 
-        <!-- КОНТАКТЫ -->
+        <!-- КОНТАКТЫ - МОБИЛЬНАЯ ВЕРСИЯ -->
         <div class="footer-note">
-            <div>🧡 Индивидуальный трек / корпоративное обучение</div>
+            <div style="font-weight: 500;">🧡 Индивидуальный трек / корпоративное обучение</div>
             <div class="contact-links">
                 <a href="https://wa.me/972534514966?text=Здравствуйте!%20Интересует%20курс%20по%20Frontend" 
                    class="contact-item" target="_blank">
-                    <span class="contact-icon whatsapp-bg">📱</span>
-                    <span>+972‒534‒514‒966</span>
-                    <span style="background: #25D366; color: white; padding: 2px 12px; border-radius: 20px;">WhatsApp</span>
+                    <span class="contact-icon whatsapp-bg" style="font-size: 20px;">📱</span>
+                    <span style="font-weight: 600;">+972‒534‒514‒966</span>
+                    <span style="background: #25D366; color: white; padding: 2px 12px; border-radius: 20px; font-size: 13px;">WhatsApp</span>
                 </a>
                 <a href="https://t.me/v1148656?text=Здравствуйте!%20Интересует%20курс" 
                    class="contact-item" target="_blank">
-                    <span class="contact-icon telegram-bg">✈️</span>
-                    <span>@v1148656</span>
-                    <span style="background: #0088cc; color: white; padding: 2px 12px; border-radius: 20px;">Telegram</span>
+                    <span class="contact-icon telegram-bg" style="font-size: 20px;">✈️</span>
+                    <span style="font-weight: 600;">@v1148656</span>
+                    <span style="background: #0088cc; color: white; padding: 2px 12px; border-radius: 20px; font-size: 13px;">Telegram</span>
                 </a>
             </div>
         </div>
         
-        <div style="margin-top: 24px; font-size: 13px; color: #787f8e; text-align: center;">
+        <div style="margin-top: 24px; font-size: 13px; color: #787f8e; text-align: center; border-top: 1px dashed #d0d9e8; padding-top: 24px;">
             Цены фиксированы для набора 2026. Комбо-предложение действует при оплате до старта курса.
         </div>
     </div>
