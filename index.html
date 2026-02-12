@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Прайс-лист — Вёрстка + JS (Казань 2026)</title>
+    <!-- Подключаем стильный шрифт -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Имитация печати / премиум PDF стиля -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #e8ecf2; /* фон как у превью PDF */
+        font-family: "Inter", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 24px;
+        color: #1a1e2b;
+      }
+
+      .pdf-card {
+        max-width: 1200px;
+        width: 100%;
+        background: white;
+        border-radius: 40px 40px 32px 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+        padding: 52px 48px;
+        position: relative;
+        transition: all 0.2s;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      /* Дизайнерские акценты — референс на Казань 2026 */
+      .badge-tag {
+        display: inline-block;
+        background: linear-gradient(145deg, #181c2c, #0f121c);
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 8px 20px;
+        border-radius: 100px;
+        letter-spacing: 0.4px;
+        margin-bottom: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(4px);
+        box-shadow: 0 8px 12px -8px rgba(0, 0, 0, 0.3);
+      }
+
+      h1 {
+        font-size: 52px;
+        font-weight: 700;
+        line-height: 1.05;
+        letter-spacing: -1.5px;
+        color: #0a0d16;
+        margin-bottom: 16px;
+        max-width: 800px;
+        font-family: "Space Grotesk", "Inter", sans-serif;
+      }
+
+      .subhead {
+        font-size: 20px;
+        color: #4a505e;
+        font-weight: 400;
+        margin-bottom: 48px;
+        border-left: 6px solid #2966ff;
+        padding-left: 24px;
+        background: #f6f8ff;
+        border-radius: 0 20px 20px 0;
+        display: inline-block;
+        padding: 16px 32px 16px 28px;
+        width: fit-content;
+      }
+
+      /* Стоимость — жирно, без дат */
+      .price-total {
+        background: #0e1322;
+        border-radius: 28px;
+        padding: 32px 36px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 56px;
+        flex-wrap: wrap;
+        background-image: radial-gradient(
+          circle at 100% 0%,
+          rgba(41, 102, 255, 0.15) 0%,
+          transparent 50%
+        );
+      }
+
+      .price-label {
+        font-size: 24px;
+        font-weight: 500;
+        opacity: 0.85;
+        letter-spacing: -0.02em;
+      }
+
+      .price-value {
+        font-size: 60px;
+        font-weight: 700;
+        letter-spacing: -2px;
+        font-family: "Space Grotesk", monospace;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .price-value small {
+        font-size: 28px;
+        font-weight: 500;
+        opacity: 0.7;
+      }
+
+      .meta-city {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 8px 24px;
+        border-radius: 60px;
+        font-size: 16px;
+        font-weight: 500;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Таблица стильная — как премиум коммерческое предложение */
+      .program-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+      }
+
+      .program-table th {
+        background: #f2f5fa;
+        font-weight: 600;
+        font-size: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: #1f2533;
+        padding: 20px 16px;
+        text-align: left;
+        border-bottom: 2px solid #d0d9e8;
+      }
+
+      .program-table td {
+        padding: 18px 16px;
+        background: white;
+        border-bottom: 1px solid #edf0f5;
+        font-size: 17px;
+        font-weight: 450;
+        color: #232836;
+      }
+
+      .program-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .lesson-number {
+        font-weight: 600;
+        color: #2966ff;
+        width: 70px;
+        font-size: 16px;
+      }
+
+      .topic-name {
+        font-weight: 500;
+      }
+
+      .project-highlight {
+        background: #fcf1d6;
+        padding: 4px 14px;
+        border-radius: 40px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #7a5800;
+        display: inline-block;
+        margin-left: 8px;
+      }
+
+      .price-col {
+        font-weight: 700;
+        color: #0a1c38;
+        font-size: 18px;
+        font-family: "Space Grotesk", monospace;
+        text-align: right;
+      }
+
+      .installment-note {
+        background: #f7f9fc;
+        border-radius: 20px;
+        padding: 28px 32px;
+        margin-top: 48px;
+        border: 1px dashed #a0b3cc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .installment-note span {
+        font-size: 18px;
+        font-weight: 500;
+        color: #1e2a44;
+      }
+
+      .btn-like {
+        background: #1a2c4e;
+        color: white;
+        border: none;
+        padding: 16px 36px;
+        border-radius: 200px;
+        font-weight: 600;
+        font-size: 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 12px 24px -10px #0a1a2e;
+        transition: all 0.2s;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .btn-like:hover {
+        background: #2966ff;
+        transform: scale(1.02);
+        box-shadow: 0 20px 28px -10px #2966ff70;
+      }
+
+      .guarantee {
+        display: flex;
+        gap: 24px;
+        margin-top: 40px;
+        color: #3c4459;
+        font-weight: 500;
+        border-top: 2px solid #e8edf5;
+        padding-top: 40px;
+      }
+
+      .footer-note {
+        margin-top: 24px;
+        font-size: 15px;
+        color: #5d6478;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .price-per-lesson {
+        background: #eef3ff;
+        border-radius: 16px;
+        padding: 6px 18px;
+        font-weight: 600;
+        color: #2966ff;
+      }
+
+      /* адаптив */
+      @media (max-width: 800px) {
+        .pdf-card {
+          padding: 32px 20px;
+        }
+        h1 {
+          font-size: 38px;
+        }
+        .price-value {
+          font-size: 48px;
+        }
+      }
+      .star-icon {
+        color: #ffb443;
+        margin-right: 6px;
+      }
+
+      /* визуал, имя преподавателя — скрыто, дата — отсутствует */
+      .no-name {
+        /* совсем нет имени */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="pdf-card">
+      <!-- Метка — Казань, 2026 (без даты) -->
+      <div class="badge-tag">⚡ Казань · предложение 2026</div>
+
+      <!-- Заголовок — продающий, без имени -->
+      <h1>Frontend‑разработчик<br />за 20 уроков</h1>
+      <div class="subhead">
+        ← от основ HTML до асинхронного JS. 2 реальных проекта в портфолио
+      </div>
+
+      <!-- БЛОК ЦЕНЫ (урок фикс) — акцент на комфортную сумму для Казани -->
+      <div class="price-total">
+        <div>
+          <div class="price-label">Стоимость одного урока</div>
+          <div class="price-value">2 490 ₽ <small>/ 90 мин</small></div>
+        </div>
+        <div class="meta-city">🧩 Индивидуально / Мини-группа 2-3 чел.</div>
+      </div>
+
+      <!-- ОСНОВНАЯ ПРОГРАММА — 20 шагов + ежедневник вместо кинотеатра -->
+      <table class="program-table">
+        <thead>
+          <tr>
+            <th>Урок</th>
+            <th>Тема / проект</th>
+            <th>Стоимость</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="lesson-number">01</td>
+            <td class="topic-name">Введение в HTML. Семантика, структура</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">02</td>
+            <td class="topic-name">Forms. Валидация, отправка</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">03</td>
+            <td class="topic-name">CSS, продвинутые селекторы, переменные</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">04</td>
+            <td class="topic-name">
+              Box-model. Блочная модель, margin/padding
+            </td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">05</td>
+            <td class="topic-name">
+              Position. Относительное, абсолютное, fixed
+            </td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">06</td>
+            <td class="topic-name">Flexbox. Полный гайд, адаптив</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">07</td>
+            <td class="topic-name">
+              <span style="font-weight: 700"
+                >🎯 Проект: ToDo List (Ежедневник)</span
+              >
+              <span class="project-highlight">MVP</span>
+            </td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">08</td>
+            <td class="topic-name">
+              Введение в JS. Переменные, типы, ветвления
+            </td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">09</td>
+            <td class="topic-name">Array. Методы, деструктуризация</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">10</td>
+            <td class="topic-name">Functions. Scope, замыкания</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">11</td>
+            <td class="topic-name">DOM. Поиск, события, изменение</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">12</td>
+            <td class="topic-name">Functions practice + HTML. Динамика</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">13</td>
+            <td class="topic-name">Object. Прототипы, this</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">14</td>
+            <td class="topic-name">map, reduce, forEach. Функционально</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">15</td>
+            <td class="topic-name">
+              🎯 Проект: расширенный ToDo (фильтры, даты)
+            </td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">16</td>
+            <td class="topic-name">OOP. Классы, наследование</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">17</td>
+            <td class="topic-name">Timers. setInterval, setTimeout</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">18</td>
+            <td class="topic-name">Promise. Цепочки, состояния</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">19</td>
+            <td class="topic-name">Async/await, обработка ошибок</td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+          <tr>
+            <td class="lesson-number">20</td>
+            <td class="topic-name">
+              🏁 Модульный выпускной проект: Full‑stack ToDo + сервер
+            </td>
+            <td class="price-col">2 490 ₽</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- доп. информация: стоимость курса целиком со скидкой (блок рассрочки) -->
+      <div class="installment-note">
+        <span
+          >💰 Всё сразу — 44 900 ₽
+          <span
+            style="
+              text-decoration: line-through;
+              opacity: 0.5;
+              margin-left: 12px;
+              font-size: 18px;
+            "
+            >49 800 ₽</span
+          ></span
+        >
+        <span
+          style="
+            background: #1f2b48;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+          "
+          >экономия 4 900 ₽</span
+        >
+      </div>
+
+      <!-- Блок “почему мы” — продающий, Казань, уют, ориентир на ежедневник -->
+      <div style="display: flex; gap: 36px; margin-top: 48px; flex-wrap: wrap">
+        <div style="flex: 1; min-width: 240px">
+          <div style="font-size: 28px; margin-bottom: 8px">📋</div>
+          <h3 style="font-weight: 700; margin-bottom: 8px; font-size: 20px">
+            ToDo List = сквозной проект
+          </h3>
+          <p style="color: #444e60; line-height: 1.5">
+            От статичного ежедневника на HTML до приложения с async-запросами.
+            Добавите в портфолио.
+          </p>
+        </div>
+        <div style="flex: 1; min-width: 240px">
+          <div style="font-size: 28px; margin-bottom: 8px">🧩</div>
+          <h3 style="font-weight: 700; margin-bottom: 8px; font-size: 20px">
+            20 занятий без воды
+          </h3>
+          <p style="color: #444e60; line-height: 1.5">
+            Каждый урок — готовый кирпич. После 6 урока уже сверстали
+            ежедневник.
+          </p>
+        </div>
+        <div style="flex: 1; min-width: 240px">
+          <div style="font-size: 28px; margin-bottom: 8px">🏆</div>
+          <h3 style="font-weight: 700; margin-bottom: 8px; font-size: 20px">
+            Отсутствие привязки к месту
+          </h3>
+          <p style="color: #444e60; line-height: 1.5">
+            Занятия онлайн. Цена фиксирована до конца 2026.
+          </p>
+        </div>
+      </div>
+
+      <!-- гарантии + контакт (без имени) -->
+      <div class="guarantee">
+        <div style="display: flex; align-items: center; gap: 10px">
+          <span style="font-size: 26px">✓</span>
+          <span style="font-weight: 600">Бесплатная консультация 30 мин</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px">
+          <span style="font-size: 26px">✓</span>
+          <span style="font-weight: 600">Пробный урок — 1 290 ₽</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px">
+          <span style="font-size: 26px">✓</span>
+          <span style="font-weight: 600">Бронирование без предоплаты</span>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        <div>🧡 Индивидуальный трек / возможна разбивка на 2 платежа</div>
+        <div class="contact-links">
+          <!-- WhatsApp ссылка -->
+          <div>
+            <a
+              href="https://wa.me/972534514966?text=Здравствуйте!%20Интересует%20курс%20по%20Frontend"
+              class="contact-item"
+              target="_blank"
+              title="Написать в WhatsApp"
+            >
+              <span class="contact-icon whatsapp-bg">📱</span>
+              <span class="phone-number">+972‒534‒514‒966</span>
+              <span
+                style="
+                  background: #25d366;
+                  color: white;
+                  padding: 2px 10px;
+                  border-radius: 20px;
+                  font-size: 12px;
+                "
+                >WhatsApp</span
+              >
+            </a>
+          </div>
+
+          <div>
+            <!-- Telegram ссылка -->
+            <a
+              href="https://t.me/v1148656?text=Здравствуйте!%20Интересует%20курс"
+              class="contact-item"
+              target="_blank"
+              title="Написать в Telegram"
+            >
+              <span class="contact-icon telegram-bg">✈️</span>
+              <span class="phone-number">@v1148656</span>
+              <span
+                style="
+                  background: #0088cc;
+                  color: white;
+                  padding: 2px 10px;
+                  border-radius: 20px;
+                  font-size: 12px;
+                "
+                >Telegram</span
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- маленькая звёздочка — нет имени, нет даты предложения (убрали) -->
+      <div
+        style="
+          margin-top: 20px;
+          font-size: 13px;
+          color: #787f8e;
+          text-align: center;
+          border-top: 1px solid #e9ecf0;
+          padding-top: 24px;
+        "
+      >
+        Цены действительны для новых учеников 2026. Проект ToDo List
+        (Ежедневник) — основной на курсе. Подача материала подходит для старта с
+        нуля.
+      </div>
+    </div>
+  </body>
+</html>
